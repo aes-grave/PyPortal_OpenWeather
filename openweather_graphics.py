@@ -19,7 +19,7 @@ class OpenWeather_Graphics(displayio.Group):
         root_group.append(self)
         self._icon_group = displayio.Group(max_size=1)
         self.append(self._icon_group)
-        self._text_group = displayio.Group(max_size=5)
+        self._text_group = displayio.Group(max_size=6)
         self.append(self._text_group)
 
         self._icon_sprite = None
@@ -41,6 +41,13 @@ class OpenWeather_Graphics(displayio.Group):
         self.time_text.y = 12
         self.time_text.color = 0xFFFFFF
         self._text_group.append(self.time_text)
+
+        #UTC addition
+        self.timez_text = Label(self.small_font, max_glyphs=9)
+        self.timez_text.x = 200
+        self.timez_text.y = 35
+        self.timez_text.color = 0xFFFFFF
+        self._text_group.append(self.timez_text)
 
         self.temp_text = Label(self.large_font, max_glyphs=6)
         self.temp_text.x = 200
@@ -78,6 +85,8 @@ class OpenWeather_Graphics(displayio.Group):
 
         self.update_time()
 
+        self.update_timez()
+
         main_text = weather['weather'][0]['main']
         print(main_text)
         self.main_text.text = main_text
@@ -112,6 +121,16 @@ class OpenWeather_Graphics(displayio.Group):
         time_str = format_str % (hour, minute)
         print(time_str)
         self.time_text.text = time_str
+
+    def update_timez(self):
+        """Gets UTC time and updates display text"""
+        nowutc = time.localtime()
+        hourutc = nowutc[3]
+        minuteutc = nowutc[4]
+        format_str = "%d:%02d"
+        timez_str = format_str % (hourutc, minuteutc)
+        print (timez_str)
+        self.timez_text.text = timez_str + " UTC"
 
     def set_icon(self, filename):
         """The background image to a bitmap file.

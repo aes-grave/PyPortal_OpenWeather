@@ -20,7 +20,7 @@ except ImportError:
 
 # Use cityname, country code where countrycode is ISO3166 format.
 # E.g. "New York, US" or "London, GB"
-LOCATION = "Manhattan, US"
+LOCATION = "Groveland, MA, US"
 
 # Set up where we'll be fetching data from
 DATA_SOURCE = "http://api.openweathermap.org/data/2.5/weather?q="+LOCATION
@@ -36,7 +36,7 @@ pyportal = PyPortal(url=DATA_SOURCE,
                     status_neopixel=board.NEOPIXEL,
                     default_bg=0x000000)
 
-gfx = openweather_graphics.OpenWeather_Graphics(pyportal.splash, am_pm=True, celsius=False)
+gfx = openweather_graphics.OpenWeather_Graphics(pyportal.splash, am_pm=False, celsius=False)
 
 localtile_refresh = None
 weather_refresh = None
@@ -63,4 +63,5 @@ while True:
             continue
 
     gfx.update_time()
+    gfx.update_timez()
     time.sleep(30)  # wait 30 seconds before updating anything again
